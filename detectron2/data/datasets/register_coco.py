@@ -29,6 +29,9 @@ def register_coco_instances(name, metadata, json_file, image_root):
             leave it as an empty dict.
         json_file (str): path to the json instance annotation file.
         image_root (str or path-like): directory which contains all the images.
+
+    Returns:
+        object: 
     """
     assert isinstance(name, str), name
     assert isinstance(json_file, (str, os.PathLike)), json_file
