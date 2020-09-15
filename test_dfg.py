@@ -64,28 +64,28 @@ cv2.imshow('IMAGE_BW',image_visual2.get_image())
 cv2.waitKey(0)
 
 # image_visual.save(os.path.join(FILE_ROOT,'TMP.JPG'))
-
-from detectron2.engine import DefaultTrainer
-
-cfg = get_cfg()
-cfg.merge_from_file(model_zoo.get_config_file("configs/dfg/mask_rcnn_R_101_FPN_3x.yaml"))
-cfg.DATASETS.TRAIN = (my_dataset_train_name,)
-cfg.DATASETS.TEST = (my_dataset_val_name,)
-cfg.DATALOADER.NUM_WORKERS = 2
-cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("configs/dfg/mask_rcnn_R_101_FPN_3x.yaml")  # Let training initialize from model zoo
-cfg.SOLVER.IMS_PER_BATCH = 4
-# cfg.SOLVER.BASE_LR = 0.00025  # pick a good LR
-cfg.SOLVER.MAX_ITER = 350725    # 300 iterations seems good enough for this toy dataset; you will need to train longer for a practical dataset
-cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 256   # faster, and good enough for this toy dataset (default: 512)
-cfg.MODEL.ROI_HEADS.NUM_CLASSES = 200  # only has one class (ballon)
-
-os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
-trainer = DefaultTrainer(cfg)
-trainer.resume_or_load(resume=False)
-trainer.train()
-
-# cfg already contains everything we've set previously. Now we changed it a little bit for inference:
-cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")  # path to the model we just trained
-cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5   # set a custom testing
-predictor=DefaultPredictor(cfg)
+#
+# from detectron2.engine import DefaultTrainer
+#
+# cfg = get_cfg()
+# cfg.merge_from_file(model_zoo.get_config_file("configs/dfg/mask_rcnn_R_101_FPN_3x.yaml"))
+# cfg.DATASETS.TRAIN = (my_dataset_train_name,)
+# cfg.DATASETS.TEST = (my_dataset_val_name,)
+# cfg.DATALOADER.NUM_WORKERS = 2
+# cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("configs/dfg/mask_rcnn_R_101_FPN_3x.yaml")  # Let training initialize from model zoo
+# cfg.SOLVER.IMS_PER_BATCH = 4
+# # cfg.SOLVER.BASE_LR = 0.00025  # pick a good LR
+# cfg.SOLVER.MAX_ITER = 350725    # 300 iterations seems good enough for this toy dataset; you will need to train longer for a practical dataset
+# cfg.MODEL.ROI_HEADS.BATCH_SIZE_PER_IMAGE = 256   # faster, and good enough for this toy dataset (default: 512)
+# cfg.MODEL.ROI_HEADS.NUM_CLASSES = 200  # only has one class (ballon)
+#
+# os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
+# trainer = DefaultTrainer(cfg)
+# trainer.resume_or_load(resume=False)
+# trainer.train()
+#
+# # cfg already contains everything we've set previously. Now we changed it a little bit for inference:
+# cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "model_final.pth")  # path to the model we just trained
+# cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5   # set a custom testing
+# predictor=DefaultPredictor(cfg)
 
